@@ -1,35 +1,39 @@
-function mergeSort(arr) {
-    if (arr.length <= 1) {
-        return arr; // base case
+const mergeSort = (startArray) => {
+    // Base case: if array has only one element, return it
+    const length = startArray.length;
+    if (length === 1) {
+      return startArray;
     }
-
-    const middle = Math.floor(arr.length / 2);
-    const left = arr.slice(0, middle);
-    const right = arr.slice(middle);
-
-    return merge(mergeSort(left), mergeSort(right));
-}
-
-function merge(left, right) {
+  
+    // Split the array into two halves
+    const mid = Math.floor(length / 2);
+    const leftArray = startArray.slice(0, mid);
+    const rightArray = startArray.slice(mid, length);
+  
+    // Recursively sort both halves and merge them
+    return merge(mergeSort(leftArray), mergeSort(rightArray));
+  };
+  
+  const merge = (left, right) => {
+    // Initialize empty array to store merged result
     const result = [];
-    let i = 0, j = 0;
-
-    // Compare elements from both halves and merge in sorted order
-    while (i < left.length && j < right.length) {
-        if (left[i] < right[j]) {
-            result.push(left[i]);
-            i++;
-        } else {
-            result.push(right[j]);
-            j++;
-        }
+  
+    // While both arrays have elements, compare and push the smaller
+    while (left.length && right.length) {
+      result.push(left[0] < right[0] ? left.shift() : right.shift());
     }
-
-    // Add any remaining elements
-    return result.concat(left.slice(i)).concat(right.slice(j));
-}
-
-// Example usage
-const array = [5, 3, 8, 4, 2];
-const sortedArray = mergeSort(array);
-console.log(sortedArray); // [2, 3, 4, 5, 8]
+  
+    // Concatenate the remaining elements (if any)
+    return result.concat(left, right);
+  };
+  
+  // Sample input array
+  const inputArr = [3, 5, 2, 90, 4, 7];
+  
+  // Output the sorted array
+  console.log(mergeSort(inputArr));
+  
+  module.exports = {
+    mergeSort
+  };
+  
